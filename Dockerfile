@@ -24,3 +24,4 @@ EXPOSE 8080
 
 # Comando para iniciar o Jenkins quando o contêiner for executado
 CMD ["java", "-jar", "/usr/share/jenkins/jenkins.war"]
+
