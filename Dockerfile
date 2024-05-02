@@ -12,9 +12,11 @@ RUN apt-get update && \
 # Defina o diretório de trabalho
 WORKDIR /usr/share/jenkins/ref/plugins
 
-# Baixe e instale os plugins desejados
-RUN wget -O git.hpi https://updates.jenkins.io/download/plugins/git/latest/git.hpi && \
-    wget -O docker-plugin.hpi https://updates.jenkins.io/download/plugins/docker-plugin/latest/docker-plugin.hpi
+# Baixe e instale os plugins do arquivo de lista de plugins para o diretório de trabalho
+COPY plugins.txt /usr/share/jenkins/ref/plugins/plugins.txt
+
+# Instale os plugins usando o script de instalação de plugins do Jenkins
+RUN install-plugins.sh < /usr/share/jenkins/plugins/plugins.txt
 
 # Copie o script para configurar o usuário do administrador
 COPY set_admin_user.groovy /usr/share/jenkins/ref/init.groovy.d/set_admin_user.groovy
@@ -24,4 +26,3 @@ EXPOSE 8080
 
 # Comando para iniciar o Jenkins quando o contêiner for executado
 CMD ["java", "-jar", "/usr/share/jenkins/jenkins.war"]
-
