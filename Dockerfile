@@ -2,7 +2,8 @@
 FROM ubuntu:latest
 
 # Instale o Jenkins e as dependências
-RUN apt-get update && \
+RUN DEBIAN_FRONTEND=nointereacive apt-get install -y --no-install-recommends apt-utils 
+    apt-get update && \
     apt-get install -y wget gnupg2 && \
     wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | apt-key add - && \
     sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && \
