@@ -12,3 +12,4 @@ strategy.setAllowAnonymousRead(false)
 instance.setAuthorizationStrategy(strategy)
 
 instance.save()
+
