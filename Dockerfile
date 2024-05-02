@@ -1,14 +1,22 @@
 # Use uma base de imagem Ubuntu
-FROM ubuntu:latest
+FROM debian:stable
 
 # Instale o Jenkins e as dependências
 RUN apt-get update && \
     apt-get install -y wget gnupg2 && \
-    wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | apt-key add - && \
-    sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && \
-    apt-get update && \
-    apt-get install -y openjdk-11-jdk jenkins
+    rm -rf /var/lib/apt/lists/*
 
+# Adicione a chave GPG do repositório Jenkins diretamente ao keyring do sistema
+RUN wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | gpg --dearmor > /usr/share/keyrings/jenkins-archive-keyring.gpg
+
+# Adicione o repositório Jenkins ao sources.list
+RUN echo "deb [signed-by=/usr/share/keyrings/jenkins-archive-keyring.gpg] https://pkg.jenkins.io/debian-stable binary/" > /etc/apt/sources.list.d/jenkins.list
+
+# Atualize e instale o Java e o Jenkins
+RUN apt-get update && \
+    apt-get install -y openjdk-11-jdk jenkins && \
+    rm -rf /var/lib/apt/lists/*
+    
 # Defina o diretório de trabalho
 WORKDIR /usr/share/jenkins/ref/plugins
 
