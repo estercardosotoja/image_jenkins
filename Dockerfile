@@ -14,9 +14,9 @@ RUN echo "deb [signed-by=/usr/share/keyrings/jenkins-archive-keyring.gpg] https:
 
 # Atualize e instale o Java e o Jenkins
 RUN apt-get update && \
-    apt-get install -y openjdk-11-jdk jenkins && \
+    apt-get install -y openjdk-11-jdk && \
     rm -rf /var/lib/apt/lists/*
-    
+
 # Defina o diretório de trabalho
 WORKDIR /usr/share/jenkins/ref/plugins
 
